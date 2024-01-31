@@ -1,0 +1,56 @@
+import java.util.*;
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int N = scanner.nextInt(); // Total number of stalls
+        int C = scanner.nextInt(); // Number of cows
+        
+        int[] stallPositions = new int[N];
+        for (int i = 0; i < N; i++) {
+            stallPositions[i] = scanner.nextInt();
+        }
+        
+        Arrays.sort(stallPositions);
+        
+        int result = largestMinimumDistance(N, C, stallPositions);
+        System.out.println(result);
+    }
+    
+    public static int largestMinimumDistance(int N, int C, int[] stallPositions) {
+        int low = 0;
+        int high = stallPositions[N - 1] - stallPositions[0];
+        int result = 0;
+        
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            
+            if (isValid(mid, N, C, stallPositions)) {
+                result = mid; // Store the current potential answer
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+        
+        return result;
+    }
+    
+    public static boolean isValid(int distance, int N, int C, int[] stallPositions) {
+        int cowsPlaced = 1;
+        int lastStallPosition = stallPositions[0];
+        
+        for (int i = 1; i < N; i++) {
+            if (stallPositions[i] - lastStallPosition >= distance) {
+                cowsPlaced++;
+                lastStallPosition = stallPositions[i];
+            }
+            
+            if (cowsPlaced >= C) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+}

@@ -1,0 +1,50 @@
+import java.util.*;
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int M = scanner.nextInt(); // Number of rows
+        int N = scanner.nextInt(); // Number of columns
+        
+        int[][] matrix = new int[M][N];
+        for (int i = 0; i < M; i++) {
+            for (int j = 0; j < N; j++) {
+                matrix[i][j] = scanner.nextInt();
+            }
+        }
+        
+        spiralPrint(M, N, matrix);
+    }
+    
+    public static void spiralPrint(int M, int N, int[][] matrix) {
+        int top = 0, bottom = M - 1, left = 0, right = N - 1;
+        
+        while (top <= bottom && left <= right) {
+            for (int i = left; i <= right; i++) {
+                System.out.print(matrix[top][i] + ", ");
+            }
+            top++;
+            
+            for (int i = top; i <= bottom; i++) {
+                System.out.print(matrix[i][right] + ", ");
+            }
+            right--;
+            
+            if (top <= bottom) {
+                for (int i = right; i >= left; i--) {
+                    System.out.print(matrix[bottom][i] + ", ");
+                }
+                bottom--;
+            }
+            
+            if (left <= right) {
+                for (int i = bottom; i >= top; i--) {
+                    System.out.print(matrix[i][left] + ", ");
+                }
+                left++;
+            }
+        }
+        
+        System.out.println("END");
+    }
+}

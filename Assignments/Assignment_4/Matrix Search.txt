@@ -1,0 +1,39 @@
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int N = scanner.nextInt();
+        int M = scanner.nextInt();
+        
+        int[][] matrix = new int[N][M];
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < M; j++) {
+                matrix[i][j] = scanner.nextInt();
+            }
+        }
+        
+        int x = scanner.nextInt();
+        
+        int result = searchInMatrix(N, M, matrix, x);
+        System.out.println(result);
+    }
+    
+    public static int searchInMatrix(int N, int M, int[][] matrix, int x) {
+        int row = 0;
+        int col = M - 1;
+        
+        while (row < N && col >= 0) {
+            if (matrix[row][col] == x) {
+                return 1; // Element found
+            } else if (matrix[row][col] > x) {
+                col--; // Move left in the same row
+            } else {
+                row++; // Move down to the next row
+            }
+        }
+        
+        return 0; // Element not found
+    }
+}

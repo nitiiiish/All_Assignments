@@ -1,0 +1,66 @@
+import java.util.*;
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int K = scanner.nextInt();
+        int N = scanner.nextInt();
+        
+        int[] boards = new int[N];
+        for (int i = 0; i < N; i++) {
+            boards[i] = scanner.nextInt();
+        }
+        
+        int result = minimumPaintingTime(K, N, boards);
+        System.out.println(result);
+    }
+    
+    public static int minimumPaintingTime(int K, int N, int[] boards) {
+        int low = 0;
+        int high = 0;
+        
+        // Calculate the upper bound and the total length of all boards
+        for (int i = 0; i < N; i++) {
+            high += boards[i];
+        }
+        
+        // Perform binary search to find the minimum time
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            
+            if (isValid(mid, K, N, boards)) {
+                // Valid time, try to minimize it further
+                high = mid - 1;
+            } else {
+                // Invalid time, increase the time
+                low = mid + 1;
+            }
+        }
+        
+        return low;
+    }
+    
+    public static boolean isValid(int time, int K, int N, int[] boards) {
+        int painters = 1;
+        int currentBoardLength = 0;
+        
+        for (int i = 0; i < N; i++) {
+            if (boards[i] > time) {
+                return false; // A board takes longer time than the limit
+            }
+            
+            if (currentBoardLength + boards[i] > time) {
+                painters++;
+                currentBoardLength = boards[i];
+                
+                if (painters > K) {
+                    return false; // More painters needed
+                }
+            } else {
+                currentBoardLength += boards[i];
+            }
+        }
+        
+        return true;
+    }
+}

@@ -1,0 +1,37 @@
+import java.util.*;
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int R = scanner.nextInt();
+        int C = scanner.nextInt();
+        
+        int[][] matrix = new int[R][C];
+        for (int i = 0; i < R; i++) {
+            for (int j = 0; j < C; j++) {
+                matrix[i][j] = scanner.nextInt();
+            }
+        }
+        
+        sortRows(matrix);
+        printMatrix(matrix);
+    }
+    
+    public static void sortRows(int[][] matrix) {
+        for (int i = 0; i < matrix.length; i++) {
+            Arrays.sort(matrix[i]);
+        }
+    }
+    
+    public static void printMatrix(int[][] matrix) {
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                System.out.print(matrix[i][j]);
+                if (j != matrix[i].length - 1) {
+                    System.out.print(" ");
+                }
+            }
+            System.out.println();
+        }
+    }
+}
