@@ -1,0 +1,16 @@
+import java.util.*;
+import java.lang.*;
+public class Main {
+    public static void main (String args[]) {
+        Scanner sc = new Scanner(System.in);
+        int cases = sc.nextInt();
+        for(int i = 1; i <= cases; i++) {
+            int[] arr = new int[2];
+            arr[0] = sc.nextInt();
+            arr[1] = sc.nextInt();
+            int ret = arr[0] % arr[1];
+            System.out.println(Math.min(ret , arr[1] - ret)); 
+        }
+
+    }
+}

@@ -1,0 +1,56 @@
+import java.util.*;
+public class Main {
+    public static int getc1c2(int arr[], int c1, int c2){
+
+        int sum=0;
+
+        for(int i=0; i<arr.length;i++){
+
+            sum+= Math.min(arr[i]*c1, c2);
+        }
+
+        return sum;
+    }
+    public static void main(String args[]) {
+
+        Scanner s= new Scanner(System.in);
+
+        int t= s.nextInt();
+
+        while(t >0){
+
+            int c1= s.nextInt();
+            int c2= s.nextInt();
+            int c3= s.nextInt();
+            int c4= s.nextInt();
+
+            int n, m;
+
+            n= s.nextInt();
+            m= s.nextInt();
+
+
+            int r_arr[]= new int[n];
+            int c_arr[]= new int[m];
+
+            for(int i=0; i<n;i++){
+
+                r_arr[i]=s.nextInt();
+            }
+
+            for(int i=0; i<m;i++){
+                c_arr[i]= s.nextInt();
+
+            }
+
+             int ans1= Math.min(getc1c2(r_arr,c1,c2), c3);
+             int ans2=Math.min(getc1c2(c_arr, c1, c2), c3);
+
+             int finalans= Math.min(ans1+ans2, c4);
+
+             System.out.println(finalans);
+            t--;
+        }
+
+    }
+}

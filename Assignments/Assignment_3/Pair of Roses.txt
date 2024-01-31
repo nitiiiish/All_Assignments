@@ -1,0 +1,58 @@
+import java.util.*;
+public class Main {
+    
+   public static void main(String[] args) {
+	
+		Scanner sc = new Scanner(System.in);
+		int t= sc.nextInt();
+		
+		
+		for(int i=0;i<t;i++) {
+			int n= sc.nextInt();
+			int []arr=new int[n];
+			for(int j=0;j<arr.length;j++) {
+				arr[j]=sc.nextInt();
+			}
+			int budget=sc.nextInt();
+			findRoses(arr,budget);
+		}
+		
+	}
+	public static void findRoses(int[]arr ,int budget ) {
+		Arrays.sort(arr);
+		int r1=0;
+		int r2=0;
+		int diff=Integer.MAX_VALUE;
+		for(int i=0;i<arr.length;i++) {
+			int newR1=arr[i];
+			int newR2=budget-newR1;
+			
+			if(binSearch(arr,newR2,i+1)) {
+				int newdiff=Math.abs(newR1-newR2);
+				if(newdiff<diff) {
+					diff=newdiff;
+					r1=newR1;
+					r2=newR2;
+				}
+			}
+			
+		}
+		System.out.println("Deepak should buy roses whose prices are " + r1 + " and " + r2 +".");
+		
+	}
+	public static boolean binSearch(int[]arr , int rose2,int lo) {
+		int hi=arr.length-1;
+		while(lo<=hi) {
+			int mid = lo+(hi-lo)/2;
+			if(arr[mid]==rose2) {
+				return true;
+			}else if(arr[mid]>rose2) {
+				hi=mid-1;
+			}else {
+				lo=mid+1;
+			}
+		}
+		return false;
+	}
+
+}
