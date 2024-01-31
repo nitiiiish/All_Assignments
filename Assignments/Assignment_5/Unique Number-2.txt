@@ -1,0 +1,31 @@
+import java.util.*;
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        int[] arr = new int[n];
+        
+        int xorResult = 0;
+        for (int i = 0; i < n; i++) {
+            arr[i] = scanner.nextInt();
+            xorResult ^= arr[i];
+        }
+
+        // Find the rightmost set bit in xorResult
+        int rightmostSetBit = xorResult & -xorResult;
+
+        int unique1 = 0;
+        int unique2 = 0;
+
+        // Partition the array elements into two groups based on the rightmost set bit
+        for (int num : arr) {
+            if ((num & rightmostSetBit) != 0) {
+                unique1 ^= num;
+            } else {
+                unique2 ^= num;
+            }
+        }
+
+        System.out.println(Math.min(unique1, unique2) + " " + Math.max(unique1, unique2));
+    }
+}

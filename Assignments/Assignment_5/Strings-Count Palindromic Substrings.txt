@@ -1,0 +1,29 @@
+import java.util.*;
+public class Main {
+    public static boolean isPalindrome(String s) {
+        return s.equals(new StringBuilder(s).reverse().toString());
+    }
+
+    public static int countPalindromicSubstrings(String s) {
+        int n = s.length();
+        int count = 0;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = i; j < n; j++) {
+                if (isPalindrome(s.substring(i, j + 1))) {
+                    count++;
+                }
+            }
+        }
+
+        return count;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String inputString = scanner.next();
+
+        int result = countPalindromicSubstrings(inputString);
+        System.out.println(result);
+    }
+}

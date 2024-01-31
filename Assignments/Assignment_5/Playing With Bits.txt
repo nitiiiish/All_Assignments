@@ -1,0 +1,30 @@
+import java.util.*;
+public class Main {
+   public static int countSetBits(int num) {
+        int count = 0;
+        while (num > 0) {
+            count += num & 1; // Check the rightmost bit
+            num >>= 1; // Shift the number to the right by 1 bit
+        }
+        return count;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int q = scanner.nextInt(); // Number of queries
+        
+        for (int i = 0; i < q; i++) {
+            int a = scanner.nextInt();
+            int b = scanner.nextInt();
+            int setBitsCount = 0;
+            
+            for (int num = a; num <= b; num++) {
+                setBitsCount += countSetBits(num);
+            }
+            
+            System.out.println(setBitsCount);
+        }
+        
+        scanner.close();
+    }
+}

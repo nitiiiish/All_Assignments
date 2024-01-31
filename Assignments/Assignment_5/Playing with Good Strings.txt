@@ -1,0 +1,27 @@
+import java.util.*;
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.nextLine();
+        scanner.close();
+
+        int maxGoodLength = 0;
+        int currentGoodLength = 0;
+
+        for (char ch : input.toCharArray()) {
+            if (isVowel(ch)) {
+                currentGoodLength++;
+                maxGoodLength = Math.max(maxGoodLength, currentGoodLength);
+            } else {
+                currentGoodLength = 0;
+            }
+        }
+
+        System.out.println(maxGoodLength);
+    }
+
+    private static boolean isVowel(char ch) {
+        return ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u';
+    }
+}

@@ -1,0 +1,33 @@
+import java.util.*;
+public class Main {
+  public static char findMaxFrequencyChar(String input) {
+        int[] frequency = new int[256]; // Assuming ASCII character set
+        
+        // Count the frequencies of characters
+        for (char ch : input.toCharArray()) {
+            frequency[ch]++;
+        }
+        
+        char maxChar = '\0'; // Initialize with a non-valid character
+        int maxFreq = 0;
+        
+        // Find the character with maximum frequency
+        for (char ch : input.toCharArray()) {
+            if (frequency[ch] > maxFreq) {
+                maxFreq = frequency[ch];
+                maxChar = ch;
+            }
+        }
+        
+        return maxChar;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String inputString = scanner.nextLine();
+        scanner.close();
+
+        char maxFrequencyChar = findMaxFrequencyChar(inputString);
+        System.out.println(maxFrequencyChar);
+    }
+}

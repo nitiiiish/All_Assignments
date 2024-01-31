@@ -1,0 +1,26 @@
+import java.util.*;
+public class Main {
+
+     public static String removeDuplicates(String input) {
+        StringBuilder result = new StringBuilder();
+        char prevChar = '\0'; // Initialize with a non-valid character
+        
+        for (char ch : input.toCharArray()) {
+            if (ch != prevChar) {
+                result.append(ch);
+                prevChar = ch;
+            }
+        }
+
+        return result.toString();
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String inputString = scanner.nextLine();
+        scanner.close();
+
+        String withoutDuplicates = removeDuplicates(inputString);
+        System.out.println(withoutDuplicates);
+    }
+}

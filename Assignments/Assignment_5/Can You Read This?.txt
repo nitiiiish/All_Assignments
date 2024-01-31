@@ -1,0 +1,35 @@
+import java.util.*;
+public class Main {
+    
+    public static List<String> splitCamelCase(String input) {
+        List<String> words = new ArrayList<>();
+        StringBuilder currentWord = new StringBuilder();
+
+        for (char ch : input.toCharArray()) {
+            if (Character.isUpperCase(ch)) {
+                if (currentWord.length() > 0) {
+                    words.add(currentWord.toString());
+                    currentWord = new StringBuilder();
+                }
+            }
+            currentWord.append(ch);
+        }
+
+        if (currentWord.length() > 0) {
+            words.add(currentWord.toString());
+        }
+
+        return words;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String inputString = scanner.nextLine().trim();
+        scanner.close();
+
+        List<String> words = splitCamelCase(inputString);
+        for (String word : words) {
+            System.out.println(word);
+        }
+    }
+}

@@ -1,0 +1,26 @@
+import java.util.*;
+public class Main {
+
+    public static String insertAsciiDifference(String input) {
+        StringBuilder result = new StringBuilder();
+
+        for (int i = 0; i < input.length() - 1; i++) {
+            result.append(input.charAt(i));
+            int diff = input.charAt(i + 1) - input.charAt(i);
+            result.append(diff);
+        }
+
+        result.append(input.charAt(input.length() - 1)); // Append the last character
+
+        return result.toString();
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String inputString = scanner.nextLine();
+        scanner.close();
+
+        String modifiedString = insertAsciiDifference(inputString);
+        System.out.println(modifiedString);
+    }
+}

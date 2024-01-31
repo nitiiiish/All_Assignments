@@ -1,0 +1,39 @@
+import java.util.*;
+public class Main {
+   public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        // Read the number of test cases
+        int t = scanner.nextInt();
+        
+        // Consume the newline character
+        scanner.nextLine();
+        
+        // Iterate through each test case
+        for (int i = 0; i < t; i++) {
+            // Read the two input numbers as strings
+            String[] input = scanner.nextLine().split(" ");
+            String str1 = input[0];
+            String str2 = input[1];
+            
+            // Initialize a StringBuilder to store the result
+            StringBuilder result = new StringBuilder();
+            
+            // Iterate through each digit in the input strings
+            for (int j = 0; j < str1.length(); j++) {
+                // Compare the corresponding digits and append the result to the answer StringBuilder
+                if (str1.charAt(j) != str2.charAt(j)) {
+                    result.append("1");
+                } else {
+                    result.append("0");
+                }
+            }
+            
+            // Print the final result for this test case
+            System.out.println(result);
+        }
+        
+        // Close the scanner
+        scanner.close();
+    }
+}

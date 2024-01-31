@@ -1,0 +1,46 @@
+import java.util.*;
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int t = scanner.nextInt(); // Number of test cases
+        
+        while (t-- > 0) {
+            int n = scanner.nextInt(); // Size of array
+            int[] arr = new int[n]; // Array of numbers
+            for (int i = 0; i < n; i++) {
+                arr[i] = scanner.nextInt();
+            }
+            
+            String result = largestValue(arr);
+            System.out.println(result);
+        }
+        
+        scanner.close();
+    }
+
+    public static String largestValue(int[] arr) {
+        // Convert array of numbers to array of strings for custom sorting
+        String[] numStr = new String[arr.length];
+        for (int i = 0; i < arr.length; i++) {
+            numStr[i] = String.valueOf(arr[i]);
+        }
+        
+        // Custom comparator to sort in descending order
+        Arrays.sort(numStr, new Comparator<String>() {
+            public int compare(String a, String b) {
+                String first = a + b;
+                String second = b + a;
+                return second.compareTo(first); // Compare for descending order
+            }
+        });
+        
+        // Concatenate the sorted strings to get the largest value
+        StringBuilder largestValue = new StringBuilder();
+        for (String num : numStr) {
+            largestValue.append(num);
+        }
+        
+        return largestValue.toString();
+    }
+}
