@@ -1,0 +1,52 @@
+import java.util.Scanner;
+
+class TreeNode {
+    int val;
+    TreeNode left, right;
+
+    TreeNode(int val) {
+        this.val = val;
+        this.left = this.right = null;
+    }
+}
+
+public class Main {
+    public static int sumOfNodes(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        // Recursively sum up the nodes' values in left and right subtrees
+        int leftSum = sumOfNodes(root.left);
+        int rightSum = sumOfNodes(root.right);
+        // Add the current node's value to the sum of left and right subtrees
+        return root.val + leftSum + rightSum;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        TreeNode root = constructTree(scanner);
+        int sum = sumOfNodes(root);
+        System.out.println(sum);
+    }
+
+    // Function to construct a binary tree from input
+    static TreeNode constructTree(Scanner scanner) {
+        if (!scanner.hasNext()) return null;
+
+        int val = scanner.nextInt();
+        if (!scanner.hasNextBoolean()) return new TreeNode(val);
+
+        boolean hasLeft = scanner.nextBoolean();
+        TreeNode node = new TreeNode(val);
+        if (hasLeft) {
+            node.left = constructTree(scanner);
+        }
+        if (scanner.hasNextBoolean()) {
+            boolean hasRight = scanner.nextBoolean();
+            if (hasRight) {
+                node.right = constructTree(scanner);
+            }
+        }
+        return node;
+    }
+}

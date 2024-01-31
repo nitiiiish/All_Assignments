@@ -1,0 +1,65 @@
+import java.util.*;
+
+class TreeNode {
+    int val;
+    TreeNode left, right;
+
+    TreeNode(int val) {
+        this.val = val;
+        this.left = this.right = null;
+    }
+}
+
+public class Main {
+    public static void printLeafNodes(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        // Check if the current node is a leaf node
+        if (root.left == null && root.right == null) {
+            System.out.print(root.val + " ");
+        }
+        // Recursively check left and right subtrees
+        printLeafNodes(root.left);
+        printLeafNodes(root.right);
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Construct the binary tree from level order input
+        TreeNode root = constructTree(scanner);
+
+        // Print all leaf nodes
+        printLeafNodes(root);
+    }
+
+    // Function to construct a binary tree from level order input
+    static TreeNode constructTree(Scanner scanner) {
+        Queue<TreeNode> queue = new LinkedList<>();
+        TreeNode root = null;
+
+        // Read the root node value
+        if (scanner.hasNextInt()) {
+            root = new TreeNode(scanner.nextInt());
+            queue.add(root);
+        }
+
+        // Construct the binary tree level by level
+        while (!queue.isEmpty()) {
+            TreeNode current = queue.poll();
+            int leftVal = scanner.nextInt();
+            int rightVal = scanner.nextInt();
+
+            if (leftVal != -1) {
+                current.left = new TreeNode(leftVal);
+                queue.add(current.left);
+            }
+            if (rightVal != -1) {
+                current.right = new TreeNode(rightVal);
+                queue.add(current.right);
+            }
+        }
+        return root;
+    }
+}

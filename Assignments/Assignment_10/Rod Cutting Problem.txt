@@ -1,0 +1,34 @@
+import java.util.Scanner;
+
+public class Main {
+
+    public static int maxProfit(int[] price, int n) {
+        int[] dp = new int[n + 1];
+
+        for (int i = 1; i <= n; i++) {
+            dp[i] = price[i - 1]; // Initialize with price of rod of length i
+
+            // Try all possible cuts and update dp[i]
+            for (int j = 1; j < i; j++) {
+                dp[i] = Math.max(dp[i], price[j - 1] + dp[i - j]);
+            }
+        }
+
+        return dp[n];
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int N = scanner.nextInt(); // Length of prices array
+        int[] prices = new int[N];
+        for (int i = 0; i < N; i++) {
+            prices[i] = scanner.nextInt();
+        }
+
+        int rodLength = scanner.nextInt(); // Length of the rod
+        System.out.println(maxProfit(prices, rodLength));
+
+        scanner.close();
+    }
+}

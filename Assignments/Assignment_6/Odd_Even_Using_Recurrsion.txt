@@ -1,0 +1,28 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int N = scanner.nextInt();
+        printNumbers(N);
+    }
+
+    static void printNumbers(int N) {
+        if (N <= 0) {
+            return;
+        }
+
+        // Print odd numbers in decreasing sequence
+        if (N % 2 != 0) {
+            System.out.println(N);
+        }
+
+        // Recursively call printNumbers with N-1
+        printNumbers(N - 1);
+
+        // Print even numbers in increasing sequence
+        if (N % 2 == 0) {
+            System.out.println(N);
+        }
+    }
+}

@@ -1,0 +1,41 @@
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int N = scanner.nextInt(); // Number of items
+        int S = scanner.nextInt(); // Capacity of the knapsack
+
+        int[] sizes = new int[N]; // Array to store sizes of items
+        int[] values = new int[N]; // Array to store values of items
+
+        // Read sizes of items
+        for (int i = 0; i < N; i++) {
+            sizes[i] = scanner.nextInt();
+        }
+
+        // Read values of items
+        for (int i = 0; i < N; i++) {
+            values[i] = scanner.nextInt();
+        }
+
+        // Create a 2D array to store the maximum value that can be obtained
+        // using the first i items and a knapsack of capacity j
+        int[][] dp = new int[N + 1][S + 1];
+
+        // Fill the array using dynamic programming
+        for (int i = 1; i <= N; i++) {
+            for (int j = 1; j <= S; j++) {
+                if (sizes[i - 1] <= j) {
+                    dp[i][j] = Math.max(dp[i - 1][j], values[i - 1] + dp[i - 1][j - sizes[i - 1]]);
+                } else {
+                    dp[i][j] = dp[i - 1][j];
+                }
+            }
+        }
+
+        // Print the maximum value that can be obtained
+        System.out.println(dp[N][S]);
+    }
+}

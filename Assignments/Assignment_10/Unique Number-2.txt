@@ -1,0 +1,42 @@
+import java.util.Scanner;
+
+public class Main {
+
+    public static void findUniqueNumbers(int[] nums) {
+        int xorAll = 0;
+        for (int num : nums) {
+            xorAll ^= num;
+        }
+
+        // Find the rightmost set bit
+        int rightmostSetBit = xorAll & -xorAll;
+
+        int a = 0, b = 0;
+        for (int num : nums) {
+            if ((num & rightmostSetBit) > 0) {
+                // Group 1: Numbers with rightmost set bit as 1
+                a ^= num;
+            } else {
+                // Group 2: Numbers with rightmost set bit as 0
+                b ^= num;
+            }
+        }
+
+        // Print the unique numbers
+        System.out.println(Math.min(a, b) + " " + Math.max(a, b));
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int n = scanner.nextInt(); // Number of elements in the array
+        int[] nums = new int[n];
+        for (int i = 0; i < n; i++) {
+            nums[i] = scanner.nextInt();
+        }
+
+        findUniqueNumbers(nums);
+
+        scanner.close();
+    }
+}

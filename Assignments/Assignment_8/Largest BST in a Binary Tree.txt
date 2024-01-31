@@ -1,0 +1,99 @@
+import java.util.*;
+
+class TreeNode {
+    int val;
+    TreeNode left, right;
+
+    TreeNode(int val) {
+        this.val = val;
+        this.left = this.right = null;
+    }
+}
+
+class Result {
+    int size; // Size of the subtree
+    int min;  // Minimum value in the subtree
+    int max;  // Maximum value in the subtree
+    boolean isBST; // Whether the subtree is a BST
+
+    Result(int size, int min, int max, boolean isBST) {
+        this.size = size;
+        this.min = min;
+        this.max = max;
+        this.isBST = isBST;
+    }
+}
+
+public class Main {
+    static int largestBSTSize(TreeNode root) {
+        Result result = largestBSTSizeHelper(root);
+        return result.size;
+    }
+
+    static Result largestBSTSizeHelper(TreeNode node) {
+        if (node == null) {
+            return new Result(0, Integer.MAX_VALUE, Integer.MIN_VALUE, true);
+        }
+
+        Result leftResult = largestBSTSizeHelper(node.left);
+        Result rightResult = largestBSTSizeHelper(node.right);
+
+        // If both left and right subtrees are BST and the current node's value is within the range
+        if (leftResult.isBST && rightResult.isBST && node.val > leftResult.max && node.val < rightResult.min) {
+            int size = leftResult.size + rightResult.size + 1;
+            int min = Math.min(node.val, leftResult.min);
+            int max = Math.max(node.val, rightResult.max);
+            return new Result(size, min, max, true);
+        } else {
+            // If the subtree is not a BST, return the largest BST from left or right subtree
+            return new Result(Math.max(leftResult.size, rightResult.size), 0, 0, false);
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt(); // Number of nodes
+        int[] preorder = new int[n];
+        int[] inorder = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            preorder[i] = scanner.nextInt();
+        }
+
+        for (int i = 0; i < n; i++) {
+            inorder[i] = scanner.nextInt();
+        }
+
+        TreeNode root = buildTree(preorder, inorder);
+
+        int largestBST = largestBSTSize(root);
+        System.out.println(largestBST);
+    }
+
+    // Function to build a binary tree from preorder and inorder traversals
+    static TreeNode buildTree(int[] preorder, int[] inorder) {
+        if (preorder.length == 0 || inorder.length == 0 || preorder.length != inorder.length) {
+            return null;
+        }
+        return buildTreeHelper(preorder, inorder, 0, 0, inorder.length - 1);
+    }
+
+    static TreeNode buildTreeHelper(int[] preorder, int[] inorder, int preStart, int inStart, int inEnd) {
+        if (preStart > preorder.length - 1 || inStart > inEnd) {
+            return null;
+        }
+
+        TreeNode root = new TreeNode(preorder[preStart]);
+        int inIndex = 0;
+        for (int i = inStart; i <= inEnd; i++) {
+            if (inorder[i] == root.val) {
+                inIndex = i;
+            }
+        }
+
+        root.left = buildTreeHelper(preorder, inorder, preStart + 1, inStart, inIndex - 1);
+        root.right = buildTreeHelper(preorder, inorder, preStart + inIndex - inStart + 1, inIndex + 1, inEnd);
+
+        return root;
+    }
+}

@@ -1,0 +1,70 @@
+import java.util.*;
+
+class TreeNode {
+    int val;
+    TreeNode left, right;
+
+    TreeNode(int val) {
+        this.val = val;
+        this.left = this.right = null;
+    }
+}
+
+public class Main {
+    static int sum = 0;
+
+    static void modifyBST(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+
+        modifyBST(root.right);
+
+        sum += root.val;
+        root.val = sum;
+
+        modifyBST(root.left);
+    }
+
+    static void preorderTraversal(TreeNode root) {
+        if (root != null) {
+            System.out.print(root.val + " ");
+            preorderTraversal(root.left);
+            preorderTraversal(root.right);
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt(); // Number of nodes
+        int[] inorder = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            inorder[i] = scanner.nextInt();
+        }
+
+        TreeNode root = buildBST(inorder);
+
+        modifyBST(root);
+        preorderTraversal(root);
+    }
+
+    // Function to build a binary search tree from the inorder traversal
+    static TreeNode buildBST(int[] inorder) {
+        return buildBSTHelper(inorder, 0, inorder.length - 1);
+    }
+
+    static TreeNode buildBSTHelper(int[] inorder, int start, int end) {
+        if (start > end) {
+            return null;
+        }
+
+        int mid = (start + end) / 2;
+        TreeNode root = new TreeNode(inorder[mid]);
+
+        root.left = buildBSTHelper(inorder, start, mid - 1);
+        root.right = buildBSTHelper(inorder, mid + 1, end);
+
+        return root;
+    }
+}

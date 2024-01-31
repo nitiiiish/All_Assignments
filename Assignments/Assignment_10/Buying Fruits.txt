@@ -1,0 +1,50 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int t = scanner.nextInt(); // Number of test cases
+        while (t-- > 0) {
+            int n = scanner.nextInt(); // Number of fruit sellers
+            int[][] cost = new int[n][3]; // Cost of fruits per kg for each seller
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < 3; j++) {
+                    cost[i][j] = scanner.nextInt();
+                }
+            }
+            int minCost = minTotalCost(cost);
+            System.out.println(minCost);
+        }
+    }
+
+    public static int minTotalCost(int[][] cost) {
+        int n = cost.length;
+        int[][] dp = new int[n][3];
+
+        // Initialize dp array with cost of fruits from the first seller
+        for (int j = 0; j < 3; j++) {
+            dp[0][j] = cost[0][j];
+        }
+
+        // Iterate through sellers and update dp array
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < 3; j++) {
+                int minPrevCost = Integer.MAX_VALUE;
+                // Find the minimum cost from the previous seller for different fruit types
+                for (int k = 0; k < 3; k++) {
+                    if (k != j) {
+                        minPrevCost = Math.min(minPrevCost, dp[i - 1][k]);
+                    }
+                }
+                dp[i][j] = cost[i][j] + minPrevCost;
+            }
+        }
+
+        // Find the minimum cost of buying fruits from the last seller
+        int minTotalCost = Integer.MAX_VALUE;
+        for (int j = 0; j < 3; j++) {
+            minTotalCost = Math.min(minTotalCost, dp[n - 1][j]);
+        }
+        return minTotalCost;
+    }
+}

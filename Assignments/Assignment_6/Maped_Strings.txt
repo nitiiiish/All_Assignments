@@ -1,0 +1,34 @@
+import java.util.*;
+
+public class Main {
+
+    static String[] mappings = {
+            " ", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
+            "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"
+    };
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String number = scanner.next();
+        printAllPossibleStrings(number, "");
+    }
+
+    static void printAllPossibleStrings(String number, String result) {
+        if (number.length() == 0) {
+            System.out.println(result);
+            return;
+        }
+
+        // Consider taking 1 digit at a time
+        int digit = number.charAt(0) - '0';
+        printAllPossibleStrings(number.substring(1), result + mappings[digit]);
+
+        // Consider taking 2 digits at a time if it's a valid number mapping
+        if (number.length() >= 2) {
+            int twoDigitNum = Integer.parseInt(number.substring(0, 2));
+            if (twoDigitNum <= 26) {
+                printAllPossibleStrings(number.substring(2), result + mappings[twoDigitNum]);
+            }
+        }
+    }
+}

@@ -1,0 +1,42 @@
+import java.util.*;
+
+public class Main {
+    static int count = 0;
+
+    public static void findSplits(int[] arr, int idx, int sum1, int sum2, ArrayList<Integer> group1, ArrayList<Integer> group2) {
+        int n = arr.length;
+
+        if (idx == n) {
+            if (sum1 == sum2) {
+                System.out.print(group1.toString().replaceAll("[\\[\\],]", "") + " and " + group2.toString().replaceAll("[\\[\\],]", ""));
+                System.out.println();
+                count++;
+            }
+            return;
+        }
+
+        // Include current element in group1
+        group1.add(arr[idx]);
+        findSplits(arr, idx + 1, sum1 + arr[idx], sum2, group1, group2);
+        group1.remove(group1.size() - 1);
+
+        // Include current element in group2
+        group2.add(arr[idx]);
+        findSplits(arr, idx + 1, sum1, sum2 + arr[idx], group1, group2);
+        group2.remove(group2.size() - 1);
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        findSplits(arr, 0, 0, 0, new ArrayList<>(), new ArrayList<>());
+        System.out.println(count);
+
+        sc.close();
+    }
+}

@@ -1,0 +1,30 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int N = scanner.nextInt();
+        int[] arr = new int[N];
+        for (int i = 0; i < N; i++) {
+            arr[i] = scanner.nextInt();
+        }
+        int M = scanner.nextInt();
+        System.out.println(findFirstIndex(arr, M));
+    }
+    
+    private static int findFirstIndex(int[] arr, int M) {
+        return findFirstIndexHelper(arr, M, 0);
+    }
+    
+    private static int findFirstIndexHelper(int[] arr, int M, int index) {
+        if (index == arr.length) {
+            return -1; // M not found
+        }
+        
+        if (arr[index] == M) {
+            return index;
+        }
+        
+        return findFirstIndexHelper(arr, M, index + 1);
+    }
+}

@@ -1,0 +1,43 @@
+import java.util.Scanner;
+
+public class Main {
+
+    public static int minTrials(int K, int N) {
+        int[][] dp = new int[K + 1][N + 1];
+
+        // Base cases
+        for (int i = 0; i <= K; i++) {
+            dp[i][0] = 0; // Zero floors
+            dp[i][1] = 1; // One floor
+        }
+        for (int j = 1; j <= N; j++) {
+            dp[1][j] = j; // One plate
+        }
+
+        // Compute dp array
+        for (int i = 2; i <= K; i++) {
+            for (int j = 2; j <= N; j++) {
+                dp[i][j] = Integer.MAX_VALUE;
+                for (int x = 1; x <= j; x++) {
+                    int res = 1 + Math.max(dp[i - 1][x - 1], dp[i][j - x]);
+                    dp[i][j] = Math.min(dp[i][j], res);
+                }
+            }
+        }
+
+        return dp[K][N];
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int T = scanner.nextInt(); // Number of test cases
+        while (T-- > 0) {
+            int K = scanner.nextInt(); // Number of plates
+            int N = scanner.nextInt(); // Number of floors
+            System.out.println(minTrials(K, N));
+        }
+
+        scanner.close();
+    }
+}

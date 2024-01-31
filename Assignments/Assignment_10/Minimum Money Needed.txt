@@ -1,0 +1,34 @@
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int N = scanner.nextInt();
+        int W = scanner.nextInt();
+        
+        int[] prices = new int[W + 1];
+        for (int i = 1; i <= W; i++) {
+            prices[i] = scanner.nextInt();
+        }
+
+        int minPrice = minPrice(N, W, prices);
+        System.out.println(minPrice);
+    }
+
+    public static int minPrice(int N, int W, int[] prices) {
+        int[] dp = new int[W + 1];
+        Arrays.fill(dp, Integer.MAX_VALUE);
+        dp[0] = 0;
+
+        for (int i = 1; i <= W; i++) {
+            for (int j = 1; j <= i; j++) {
+                if (prices[j] != -1) {
+                    dp[i] = Math.min(dp[i], dp[i - j] + prices[j]);
+                }
+            }
+        }
+
+        return dp[W] == Integer.MAX_VALUE ? -1 : dp[W];
+    }
+}

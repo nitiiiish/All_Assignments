@@ -1,0 +1,34 @@
+import java.util.*;
+
+public class Main {
+    
+    static int count = 0;
+    
+    public static void printSubsets(int[] arr, int target, String subset, int index, int sum) {
+        if (index == arr.length) {
+            if (sum == target) {
+                System.out.print(subset + " ");
+                count++;
+            }
+            return;
+        }
+        // Include the current element in the subset
+        printSubsets(arr, target, subset + arr[index] + " ", index + 1, sum + arr[index]);
+        // Exclude the current element from the subset
+        printSubsets(arr, target, subset, index + 1, sum);
+    }
+    
+    public static void main(String args[]) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        int target = sc.nextInt();
+        
+        printSubsets(arr, target, "", 0, 0);
+        System.out.println();
+        System.out.println(count);
+    }
+}

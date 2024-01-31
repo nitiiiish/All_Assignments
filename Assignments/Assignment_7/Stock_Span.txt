@@ -1,0 +1,47 @@
+import java.util.*;
+public class Main {
+
+	public static void calculateStockSpan(int[] arr) {
+        int n = arr.length;
+        Stack<Integer> stack = new Stack<>();
+        int[] result = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            // Pop elements from the stack while the stock price at the current day is greater than the stock price at the top of the stack
+            while (!stack.isEmpty() && arr[i] >= arr[stack.peek()]) {
+                stack.pop();
+            }
+
+            // If the stack is empty, the current day is the first day with a price greater than the previous days
+            if (stack.isEmpty()) {
+                result[i] = i + 1;
+            } else {
+                // The stock span is the difference between the current day and the day at the top of the stack
+                result[i] = i - stack.peek();
+            }
+
+            // Push the current day onto the stack
+            stack.push(i);
+        }
+
+        // Display the result array
+        for (int i = 0; i < n; i++) {
+            System.out.print(result[i] + " ");
+        }
+        System.out.println("END");
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Input
+        int n = scanner.nextInt();
+        int[] stockPrices = new int[n];
+        for (int i = 0; i < n; i++) {
+            stockPrices[i] = scanner.nextInt();
+        }
+
+        // Calculate and display stock spans
+        calculateStockSpan(stockPrices);
+    }
+}

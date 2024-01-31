@@ -1,0 +1,85 @@
+import java.util.*;
+
+class TreeNode {
+    int val;
+    TreeNode left, right;
+
+    public TreeNode(int val) {
+        this.val = val;
+        left = right = null;
+    }
+}
+
+class BinaryTree {
+    TreeNode root;
+
+    public BinaryTree() {
+        root = null;
+    }
+
+    public void topView() {
+        if (root == null) return;
+
+        TreeMap<Integer, Integer> map = new TreeMap<>();
+        Queue<TreeNode> queue = new LinkedList<>();
+        Queue<Integer> hdQueue = new LinkedList<>();
+
+        queue.add(root);
+        hdQueue.add(0);
+
+        while (!queue.isEmpty()) {
+            TreeNode current = queue.poll();
+            int hd = hdQueue.poll();
+
+            if (!map.containsKey(hd)) {
+                map.put(hd, current.val);
+            }
+
+            if (current.left != null) {
+                queue.add(current.left);
+                hdQueue.add(hd - 1);
+            }
+
+            if (current.right != null) {
+                queue.add(current.right);
+                hdQueue.add(hd + 1);
+            }
+        }
+
+        for (int val : map.values()) {
+            System.out.print(val + " ");
+        }
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String[] nodes = scanner.nextLine().split(" ");
+
+        BinaryTree tree = new BinaryTree();
+        tree.root = new TreeNode(Integer.parseInt(nodes[0]));
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(tree.root);
+
+        int i = 1;
+        while (!queue.isEmpty() && i < nodes.length) {
+            TreeNode current = queue.poll();
+
+            if (!nodes[i].equals("-1")) {
+                current.left = new TreeNode(Integer.parseInt(nodes[i]));
+                queue.add(current.left);
+            }
+            i++;
+
+            if (i < nodes.length && !nodes[i].equals("-1")) {
+                current.right = new TreeNode(Integer.parseInt(nodes[i]));
+                queue.add(current.right);
+            }
+            i++;
+        }
+
+        tree.topView();
+    }
+}

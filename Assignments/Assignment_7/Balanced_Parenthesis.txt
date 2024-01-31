@@ -1,0 +1,44 @@
+import java.util.*;
+public class Main {
+
+	public static boolean isBalanced(String expression) {
+        Stack<Character> stack = new Stack<>();
+
+        for (char bracket : expression.toCharArray()) {
+            if (bracket == '(' || bracket == '[' || bracket == '{') {
+                // Push opening brackets onto the stack
+                stack.push(bracket);
+            } else {
+                // If the stack is empty, there is no matching opening bracket
+                if (stack.isEmpty()) {
+                    return false;
+                }
+
+                // Check if the current closing bracket matches the corresponding opening bracket
+                char top = stack.pop();
+                if (bracket == ')' && top != '(' ||
+                    bracket == ']' && top != '[' ||
+                    bracket == '}' && top != '{') {
+                    return false;
+                }
+            }
+        }
+
+        // If the stack is empty, all brackets were matched
+        return stack.isEmpty();
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Input
+        String input = scanner.nextLine();
+
+        // Check if the brackets are balanced
+        if (isBalanced(input)) {
+            System.out.println("Yes");
+        } else {
+            System.out.println("No");
+        }
+    }
+}

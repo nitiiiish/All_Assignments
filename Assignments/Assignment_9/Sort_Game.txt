@@ -1,0 +1,46 @@
+import java.util.*;
+
+class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int x = scanner.nextInt();
+        int N = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
+        
+        List<Employee> employees = new ArrayList<>();
+        for (int i = 0; i < N; i++) {
+            String[] input = scanner.nextLine().split(" ");
+            String name = input[0];
+            int salary = Integer.parseInt(input[1]);
+            if (salary >= x) {
+                employees.add(new Employee(name, salary));
+            }
+        }
+        
+        // Sort employees by salary in decreasing order
+        Collections.sort(employees, new Comparator<Employee>() {
+            public int compare(Employee e1, Employee e2) {
+                if (e1.salary != e2.salary) {
+                    return Integer.compare(e2.salary, e1.salary); // Decreasing order
+                } else {
+                    return e1.name.compareTo(e2.name); // Lexicographical order
+                }
+            }
+        });
+        
+        // Print the sorted list
+        for (Employee employee : employees) {
+            System.out.println(employee.name + " " + employee.salary);
+        }
+    }
+
+    static class Employee {
+        String name;
+        int salary;
+
+        public Employee(String name, int salary) {
+            this.name = name;
+            this.salary = salary;
+        }
+    }
+}

@@ -1,0 +1,36 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String args[]) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] trees = new int[n];
+        int maxWood = 0;
+        for (int i = 0; i < n; i++) {
+            trees[i] = sc.nextInt();
+            maxWood = Math.max(maxWood, trees[i]);
+        }
+        int x = sc.nextInt();
+
+        int low = 0, high = maxWood, result = 0;
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            long totalWood = calculateWood(trees, mid);
+            if (totalWood >= x) {
+                result = mid;
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+        System.out.println(result);
+    }
+
+    private static long calculateWood(int[] trees, int height) {
+        long wood = 0;
+        for (int tree : trees) {
+            wood += Math.max(0, tree - height);
+        }
+        return wood;
+    }
+}

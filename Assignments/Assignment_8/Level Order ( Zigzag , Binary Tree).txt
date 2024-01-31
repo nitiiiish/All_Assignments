@@ -1,0 +1,86 @@
+import java.util.*;
+
+class TreeNode {
+    int val;
+    TreeNode left, right;
+
+    TreeNode(int val) {
+        this.val = val;
+        this.left = this.right = null;
+    }
+}
+
+public class Main {
+    public static void zigzagLevelOrder(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+
+        List<List<Integer>> result = new ArrayList<>();
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        boolean leftToRight = true;
+
+        while (!queue.isEmpty()) {
+            int levelSize = queue.size();
+            List<Integer> currentLevel = new ArrayList<>();
+
+            for (int i = 0; i < levelSize; i++) {
+                TreeNode current = queue.poll();
+
+                // Add nodes based on the level's parity
+                if (leftToRight) {
+                    currentLevel.add(current.val);
+                } else {
+                    currentLevel.add(0, current.val); // Add at the beginning for right to left
+                }
+
+                if (current.left != null) {
+                    queue.offer(current.left);
+                }
+                if (current.right != null) {
+                    queue.offer(current.right);
+                }
+            }
+
+            // Add the current level to the result
+            result.add(currentLevel);
+            // Flip the direction for the next level
+            leftToRight = !leftToRight;
+        }
+
+        // Print the zigzag order
+        for (List<Integer> level : result) {
+            for (int val : level) {
+                System.out.print(val + " ");
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        TreeNode root = constructTree(scanner);
+        zigzagLevelOrder(root);
+    }
+
+    // Function to construct a binary tree from input
+    static TreeNode constructTree(Scanner scanner) {
+        if (!scanner.hasNext()) return null;
+
+        int val = scanner.nextInt();
+        if (!scanner.hasNextBoolean()) return new TreeNode(val);
+
+        boolean hasLeft = scanner.nextBoolean();
+        TreeNode node = new TreeNode(val);
+        if (hasLeft) {
+            node.left = constructTree(scanner);
+        }
+        if (scanner.hasNextBoolean()) {
+            boolean hasRight = scanner.nextBoolean();
+            if (hasRight) {
+                node.right = constructTree(scanner);
+            }
+        }
+        return node;
+    }
+}

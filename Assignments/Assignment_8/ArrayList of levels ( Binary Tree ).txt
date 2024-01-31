@@ -1,0 +1,72 @@
+import java.util.*;
+
+class TreeNode {
+    int val;
+    TreeNode left, right;
+
+    TreeNode(int val) {
+        this.val = val;
+        this.left = this.right = null;
+    }
+}
+
+public class Main {
+    public static List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> result = new ArrayList<>();
+        if (root == null) {
+            return result;
+        }
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+
+        while (!queue.isEmpty()) {
+            int levelSize = queue.size();
+            List<Integer> levelList = new ArrayList<>();
+
+            for (int i = 0; i < levelSize; i++) {
+                TreeNode current = queue.poll();
+                levelList.add(current.val);
+
+                if (current.left != null) {
+                    queue.offer(current.left);
+                }
+                if (current.right != null) {
+                    queue.offer(current.right);
+                }
+            }
+            result.add(levelList);
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        TreeNode root = constructTree(scanner);
+        List<List<Integer>> levelLists = levelOrder(root);
+
+        // Display the resulting array list of array lists
+        System.out.println(levelLists);
+    }
+
+    // Function to construct a binary tree from input
+    static TreeNode constructTree(Scanner scanner) {
+        if (!scanner.hasNext()) return null;
+
+        int val = scanner.nextInt();
+        if (!scanner.hasNextBoolean()) return new TreeNode(val);
+
+        boolean hasLeft = scanner.nextBoolean();
+        TreeNode node = new TreeNode(val);
+        if (hasLeft) {
+            node.left = constructTree(scanner);
+        }
+        if (scanner.hasNextBoolean()) {
+            boolean hasRight = scanner.nextBoolean();
+            if (hasRight) {
+                node.right = constructTree(scanner);
+            }
+        }
+        return node;
+    }
+}

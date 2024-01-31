@@ -1,0 +1,45 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int t = scanner.nextInt();
+        
+        while (t-- > 0) {
+            int n = scanner.nextInt();
+            int[] nums = new int[n];
+            
+            for (int i = 0; i < n; i++) {
+                nums[i] = scanner.nextInt();
+            }
+            
+            printMedian(nums);
+        }
+    }
+
+    public static void printMedian(int[] nums) {
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+        
+        for (int num : nums) {
+            if (maxHeap.isEmpty() || num <= maxHeap.peek()) {
+                maxHeap.offer(num);
+            } else {
+                minHeap.offer(num);
+            }
+            
+            if (maxHeap.size() > minHeap.size() + 1) {
+                minHeap.offer(maxHeap.poll());
+            } else if (minHeap.size() > maxHeap.size()) {
+                maxHeap.offer(minHeap.poll());
+            }
+            
+            if (maxHeap.size() == minHeap.size()) {
+                System.out.print((maxHeap.peek() + minHeap.peek()) / 2 + " ");
+            } else {
+                System.out.print(maxHeap.peek() + " ");
+            }
+        }
+        System.out.println();
+    }
+}

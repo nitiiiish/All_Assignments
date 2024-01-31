@@ -1,0 +1,49 @@
+import java.util.*;
+
+public class Main {
+    static List<String> result = new ArrayList<>();
+    static Map<String, Character> mapping = new HashMap<>();
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String num = scanner.nextLine();
+        
+        // Create the mapping from numbers to letters
+        for (int i = 1; i <= 26; i++) {
+            char ch = (char)('A' + i - 1);
+            mapping.put(String.valueOf(i), ch);
+        }
+        
+        generateStrings(num, "");
+        
+        // Sort the result and print
+        Collections.sort(result);
+        for (String str : result) {
+            System.out.println(str);
+        }
+    }
+
+    public static void generateStrings(String num, String current) {
+        // If the number is empty, add the current string to the result
+        if (num.length() == 0) {
+            result.add(current);
+            return;
+        }
+
+        // Take one digit at a time and check if it can be mapped to a letter
+        if (num.charAt(0) != '0') {
+            char ch1 = mapping.get(String.valueOf(num.charAt(0)));
+            generateStrings(num.substring(1), current + ch1);
+        }
+
+        // Take two digits at a time and check if it can be mapped to a letter
+        if (num.length() >= 2 && num.charAt(0) != '0') {
+            String twoDigits = num.substring(0, 2);
+            int numTwoDigits = Integer.parseInt(twoDigits);
+            if (numTwoDigits <= 26) {
+                char ch2 = mapping.get(String.valueOf(numTwoDigits));
+                generateStrings(num.substring(2), current + ch2);
+            }
+        }
+    }
+}

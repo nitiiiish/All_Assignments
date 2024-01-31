@@ -1,0 +1,40 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int N1 = scanner.nextInt();
+        int N2 = scanner.nextInt();
+
+        ArrayList<String> paths = new ArrayList<>();
+        int count = countPaths(N1, N2, 0, 0, "", paths);
+        
+        // Print all possible paths
+        for (String path : paths) {
+            System.out.print(path + " ");
+        }
+        System.out.println();
+        
+        // Print the total number of paths
+        System.out.println(count);
+    }
+
+    private static int countPaths(int N1, int N2, int row, int col, String path, ArrayList<String> paths) {
+        if (row == N1 - 1 && col == N2 - 1) {
+            paths.add(path);
+            return 1;
+        }
+
+        if (row >= N1 || col >= N2) {
+            return 0;
+        }
+
+        int down = countPaths(N1, N2, row + 1, col, path + "V", paths);
+        int right = countPaths(N1, N2, row, col + 1, path + "H", paths);
+        int diagonal = countPaths(N1, N2, row + 1, col + 1, path + "D", paths);
+
+        return down + right + diagonal;
+    }
+}

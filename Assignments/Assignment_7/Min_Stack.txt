@@ -1,0 +1,65 @@
+import java.util.*;
+
+class MinStack {
+    Stack<Integer> stack;
+    Stack<Integer> minStack;
+
+    public MinStack() {
+        stack = new Stack<>();
+        minStack = new Stack<>();
+    }
+
+    public void push(int x) {
+        stack.push(x);
+        if (minStack.isEmpty() || x <= minStack.peek()) {
+            minStack.push(x);
+        }
+    }
+
+    public void pop() {
+        if (stack.isEmpty()) {
+            return;
+        }
+        int popped = stack.pop();
+        if (popped == minStack.peek()) {
+            minStack.pop();
+        }
+    }
+
+    public int top() {
+        return stack.peek();
+    }
+
+    public int getMin() {
+        return minStack.peek();
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        scanner.nextLine();
+        String[] operations = scanner.nextLine().split("\\s+");
+        
+        MinStack minStack = new MinStack();
+        for (String op : operations) {
+            switch (op) {
+                case "push":
+                    int val = scanner.nextInt();
+                    minStack.push(val);
+                    break;
+                case "pop":
+                    minStack.pop();
+                    break;
+                case "top":
+                    System.out.print(minStack.top() + " ");
+                    break;
+                case "getMin":
+                    System.out.print(minStack.getMin() + " ");
+                    break;
+            }
+        }
+        scanner.close();
+    }
+}

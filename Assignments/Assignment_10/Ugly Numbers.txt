@@ -1,0 +1,31 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int t = scanner.nextInt(); // Number of test cases
+        while (t-- > 0) {
+            int n = scanner.nextInt(); // nth number to find
+            long result = findNthNumber(n);
+            System.out.println(result);
+        }
+    }
+
+    public static long findNthNumber(int n) {
+        long[] nums = new long[n];
+        nums[0] = 1;
+
+        int p2 = 0, p3 = 0, p5 = 0;
+
+        for (int i = 1; i < n; i++) {
+            long nextNum = Math.min(nums[p2] * 2, Math.min(nums[p3] * 3, nums[p5] * 5));
+            nums[i] = nextNum;
+
+            if (nextNum == nums[p2] * 2) p2++;
+            if (nextNum == nums[p3] * 3) p3++;
+            if (nextNum == nums[p5] * 5) p5++;
+        }
+
+        return nums[n - 1];
+    }
+}

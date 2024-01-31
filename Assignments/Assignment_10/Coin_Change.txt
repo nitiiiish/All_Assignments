@@ -1,0 +1,33 @@
+import java.util.Scanner;
+
+public class Main {
+
+    public static int countWays(int N, int[] coins) {
+        int[] dp = new int[N + 1];
+        dp[0] = 1;
+
+        for (int coin : coins) {
+            for (int i = coin; i <= N; i++) {
+                dp[i] += dp[i - coin];
+            }
+        }
+
+        return dp[N];
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int N = scanner.nextInt(); // Total amount to make change for
+        int M = scanner.nextInt(); // Number of coin denominations
+
+        int[] coins = new int[M];
+        for (int i = 0; i < M; i++) {
+            coins[i] = scanner.nextInt(); // Value of each coin denomination
+        }
+
+        int ways = countWays(N, coins);
+        System.out.println(ways);
+
+        scanner.close();
+    }
+}

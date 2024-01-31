@@ -1,0 +1,58 @@
+import java.util.*;
+
+class TreeNode {
+    int val;
+    TreeNode left, right;
+
+    TreeNode(int val) {
+        this.val = val;
+        this.left = this.right = null;
+    }
+}
+
+public class Main {
+    static TreeNode lowestCommonAncestor(TreeNode root, int p, int q) {
+        if (root == null) return null;
+        
+        // If both p and q are greater than current node's value, search in the right subtree
+        if (root.val < p && root.val < q) {
+            return lowestCommonAncestor(root.right, p, q);
+        }
+        // If both p and q are smaller than current node's value, search in the left subtree
+        else if (root.val > p && root.val > q) {
+            return lowestCommonAncestor(root.left, p, q);
+        }
+        // If the current node's value lies between p and q or is equal to p or q, return current node
+        else {
+            return root;
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt(); // Number of nodes
+        TreeNode root = null;
+        for (int i = 0; i < n; i++) {
+            int val = scanner.nextInt();
+            root = insert(root, val);
+        }
+        int p = scanner.nextInt(); // Value of node p
+        int q = scanner.nextInt(); // Value of node q
+
+        TreeNode lca = lowestCommonAncestor(root, p, q);
+        System.out.println(lca.val); // Output: Value of the LCA
+    }
+
+    // Function to insert a node into the BST
+    static TreeNode insert(TreeNode root, int val) {
+        if (root == null) {
+            return new TreeNode(val);
+        }
+        if (val < root.val) {
+            root.left = insert(root.left, val);
+        } else if (val > root.val) {
+            root.right = insert(root.right, val);
+        }
+        return root;
+    }
+}

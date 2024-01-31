@@ -1,0 +1,19 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int N = scanner.nextInt();
+        towerOfHanoi(N, 'A', 'B', 'C');
+    }
+
+    public static void towerOfHanoi(int N, char fromRod, char toRod, char auxRod) {
+        if (N == 1) {
+            System.out.println("Moving ring 1 from " + fromRod + " to " + toRod);
+            return;
+        }
+        towerOfHanoi(N - 1, fromRod, auxRod, toRod);
+        System.out.println("Moving ring " + N + " from " + fromRod + " to " + toRod);
+        towerOfHanoi(N - 1, auxRod, toRod, fromRod);
+    }
+}

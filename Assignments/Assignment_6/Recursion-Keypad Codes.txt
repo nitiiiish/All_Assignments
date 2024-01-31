@@ -1,0 +1,31 @@
+import java.util.*;
+
+public class Main {
+    static String[] keypad = {"", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wx", "yz"};
+
+    public static int printKeypadWords(String str, String output) {
+        if (str.length() == 0) {
+            System.out.print(output + " ");
+            return 1;
+        }
+
+        int count = 0;
+        int digit = str.charAt(0) - '0';
+        String letters = keypad[digit];
+
+        for (int i = 0; i < letters.length(); i++) {
+            count += printKeypadWords(str.substring(1), output + letters.charAt(i));
+        }
+
+        return count;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String str = scanner.nextLine();
+        int count = printKeypadWords(str, "");
+        System.out.println();
+        System.out.println(count);
+        scanner.close();
+    }
+}

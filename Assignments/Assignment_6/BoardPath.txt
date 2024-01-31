@@ -1,0 +1,42 @@
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N = sc.nextInt(); // size of the board
+        int M = sc.nextInt(); // number of faces of a dice
+        printPaths(N, M, "");
+        System.out.println();
+        System.out.println(countPaths(N, M));
+    }
+
+    // Recursive function to count the number of paths
+    public static int countPaths(int N, int M) {
+        if (N == 0) {
+            return 1;
+        }
+        if (N < 0) {
+            return 0;
+        }
+        int count = 0;
+        for (int i = 1; i <= M; i++) {
+            count += countPaths(N - i, M);
+        }
+        return count;
+    }
+
+    // Recursive function to print dice-values for all valid paths
+    public static void printPaths(int N, int M, String path) {
+        if (N == 0) {
+            System.out.print(path + " ");
+            return;
+        }
+        if (N < 0) {
+            return;
+        }
+        for (int i = 1; i <= M; i++) {
+            printPaths(N - i, M, path + i);
+        }
+    }
+}

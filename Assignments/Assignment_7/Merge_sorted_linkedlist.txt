@@ -1,0 +1,85 @@
+import java.util.Scanner;
+
+class Node {
+    int data;
+    Node next;
+
+    Node(int data) {
+        this.data = data;
+        next = null;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int T = scanner.nextInt();
+        while (T-- > 0) {
+            int N1 = scanner.nextInt();
+            Node head1 = null;
+            for (int i = 0; i < N1; i++) {
+                int data = scanner.nextInt();
+                head1 = insertNode(head1, data);
+            }
+
+            int N2 = scanner.nextInt();
+            Node head2 = null;
+            for (int i = 0; i < N2; i++) {
+                int data = scanner.nextInt();
+                head2 = insertNode(head2, data);
+            }
+
+            Node mergedHead = mergeLists(head1, head2);
+            printList(mergedHead);
+            System.out.println();
+        }
+    }
+
+    private static Node insertNode(Node head, int data) {
+        Node newNode = new Node(data);
+        if (head == null) {
+            head = newNode;
+        } else {
+            Node temp = head;
+            while (temp.next != null) {
+                temp = temp.next;
+            }
+            temp.next = newNode;
+        }
+        return head;
+    }
+
+    private static Node mergeLists(Node head1, Node head2) {
+        Node dummy = new Node(0);
+        Node tail = dummy;
+
+        while (true) {
+            if (head1 == null) {
+                tail.next = head2;
+                break;
+            }
+            if (head2 == null) {
+                tail.next = head1;
+                break;
+            }
+
+            if (head1.data <= head2.data) {
+                tail.next = head1;
+                head1 = head1.next;
+            } else {
+                tail.next = head2;
+                head2 = head2.next;
+            }
+            tail = tail.next;
+        }
+        return dummy.next;
+    }
+
+    private static void printList(Node head) {
+        Node temp = head;
+        while (temp != null) {
+            System.out.print(temp.data + " ");
+            temp = temp.next;
+        }
+    }
+}

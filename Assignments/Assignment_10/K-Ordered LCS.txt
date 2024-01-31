@@ -1,0 +1,45 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int N = scanner.nextInt();
+        int M = scanner.nextInt();
+        int k = scanner.nextInt();
+
+        int[] A = new int[N];
+        int[] B = new int[M];
+
+        for (int i = 0; i < N; i++) {
+            A[i] = scanner.nextInt();
+        }
+
+        for (int i = 0; i < M; i++) {
+            B[i] = scanner.nextInt();
+        }
+
+        int result = kOrderedLCS(N, M, k, A, B);
+        System.out.println(result);
+    }
+
+    public static int kOrderedLCS(int N, int M, int k, int[] A, int[] B) {
+        int[][][] dp = new int[N + 1][M + 1][k + 1];
+
+        for (int i = 1; i <= N; i++) {
+            for (int j = 1; j <= M; j++) {
+                for (int l = 1; l <= k; l++) {
+                    if (A[i - 1] == B[j - 1]) {
+                        dp[i][j][l] = dp[i - 1][j - 1][l] + 1;
+                    } else {
+                        dp[i][j][l] = Math.max(dp[i - 1][j][l], dp[i][j - 1][l]);
+                        if (l > 0) {
+                            dp[i][j][l] = Math.max(dp[i][j][l], dp[i - 1][j - 1][l - 1] + 1);
+                        }
+                    }
+                }
+            }
+        }
+
+        return dp[N][M][k];
+    }
+}

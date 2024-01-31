@@ -1,0 +1,27 @@
+import java.util.Scanner;
+
+public class Main {
+
+    // Function to count the number of set bits in an integer
+    public static int countSetBits(int num) {
+        int count = 0;
+        while (num > 0) {
+            num = num & (num - 1); // Clear the least significant bit
+            count++;
+        }
+        return count;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int num = scanner.nextInt(); // Input non-negative integer
+
+        // Calculate the number of set bits for each number from 0 to num
+        for (int i = 0; i <= num; i++) {
+            System.out.print(countSetBits(i) + " ");
+        }
+
+        scanner.close();
+    }
+}

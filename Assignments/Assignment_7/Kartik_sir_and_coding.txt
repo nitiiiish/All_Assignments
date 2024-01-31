@@ -1,0 +1,33 @@
+import java.util.*;
+public class Main {
+   public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int Q = scanner.nextInt();
+
+        Stack<Integer> stack = new Stack<>();
+
+        for (int i = 0; i < Q; i++) {
+            int queryType = scanner.nextInt();
+
+            if (queryType == 1) {
+                handleStudentQuery(stack);
+            } else if (queryType == 2) {
+                int cost = scanner.nextInt();
+                handleInstructorQuery(stack, cost);
+            }
+        }
+    }
+
+    private static void handleStudentQuery(Stack<Integer> stack) {
+        if (!stack.isEmpty()) {
+            int cost = stack.pop();
+            System.out.println(cost);
+        } else {
+            System.out.println("No Code");
+        }
+    }
+
+    private static void handleInstructorQuery(Stack<Integer> stack, int cost) {
+        stack.push(cost);
+    }
+}

@@ -1,0 +1,80 @@
+import java.util.*;
+
+class TreeNode {
+    int val;
+    TreeNode left, right;
+    int horizontalDistance;
+
+    TreeNode(int val) {
+        this.val = val;
+        left = right = null;
+        horizontalDistance = 0;
+    }
+}
+
+public class Main {
+    public static void bottomView(TreeNode root) {
+        if (root == null)
+            return;
+
+        TreeMap<Integer, Integer> nodeMap = new TreeMap<>();
+        Queue<TreeNode> queue = new LinkedList<>();
+
+        root.horizontalDistance = 0;
+        queue.add(root);
+
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            nodeMap.put(node.horizontalDistance, node.val);
+
+            if (node.left != null) {
+                node.left.horizontalDistance = node.horizontalDistance - 1;
+                queue.add(node.left);
+            }
+
+            if (node.right != null) {
+                node.right.horizontalDistance = node.horizontalDistance + 1;
+                queue.add(node.right);
+            }
+        }
+
+        for (int val : nodeMap.values()) {
+            System.out.print(val + " ");
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String[] nodesStr = scanner.nextLine().split(" ");
+
+        TreeNode root = buildTree(nodesStr);
+        bottomView(root);
+    }
+
+    public static TreeNode buildTree(String[] nodes) {
+        if (nodes.length == 0 || nodes[0].equals("-1"))
+            return null;
+
+        TreeNode root = new TreeNode(Integer.parseInt(nodes[0]));
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+
+        for (int i = 1; i < nodes.length; i += 2) {
+            TreeNode parent = queue.poll();
+
+            if (parent == null)
+                continue;
+
+            if (!nodes[i].equals("-1")) {
+                parent.left = new TreeNode(Integer.parseInt(nodes[i]));
+                queue.add(parent.left);
+            }
+
+            if (i + 1 < nodes.length && !nodes[i + 1].equals("-1")) {
+                parent.right = new TreeNode(Integer.parseInt(nodes[i + 1]));
+                queue.add(parent.right);
+            }
+        }
+        return root;
+    }
+}

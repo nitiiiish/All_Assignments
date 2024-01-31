@@ -1,0 +1,92 @@
+import java.util.Scanner;
+
+class Node {
+    int data;
+    Node next;
+
+    Node(int data) {
+        this.data = data;
+        next = null;
+    }
+}
+
+public class Main {
+
+    static Node sumList(Node head1, Node head2) {
+        return addLists(head1, head2, 0);
+    }
+
+    static Node addLists(Node node1, Node node2, int carry) {
+        if (node1 == null && node2 == null && carry == 0)
+            return null;
+
+        int sum = carry;
+        if (node1 != null) sum += node1.data;
+        if (node2 != null) sum += node2.data;
+
+        Node resultNode = new Node(sum % 10);
+
+        if (node1 != null || node2 != null) {
+            Node nextNode = addLists(node1 == null ? null : node1.next,
+                                     node2 == null ? null : node2.next,
+                                     sum / 10);
+            resultNode.next = nextNode;
+        }
+
+        return resultNode;
+    }
+
+    static void printList(Node head) {
+        Node current = head;
+        while (current != null) {
+            System.out.print(current.data + " ");
+            current = current.next;
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int N = scanner.nextInt(); // Number of nodes in the 1st list
+        int M = scanner.nextInt(); // Number of nodes in the 2nd list
+
+        Node head1 = null;
+        Node head2 = null;
+
+        for (int i = 0; i < N; i++) {
+            int data = scanner.nextInt();
+            Node newNode = new Node(data);
+            newNode.next = head1;
+            head1 = newNode;
+        }
+
+        for (int i = 0; i < M; i++) {
+            int data = scanner.nextInt();
+            Node newNode = new Node(data);
+            newNode.next = head2;
+            head2 = newNode;
+        }
+
+        Node sumHead = sumList(head1, head2);
+
+        // Reverse the sum list before printing
+        sumHead = reverseList(sumHead);
+
+        printList(sumHead);
+    }
+
+    static Node reverseList(Node head) {
+        Node prev = null;
+        Node current = head;
+        Node next = null;
+
+        while (current != null) {
+            next = current.next;
+            current.next = prev;
+            prev = current;
+            current = next;
+        }
+
+        return prev;
+    }
+}

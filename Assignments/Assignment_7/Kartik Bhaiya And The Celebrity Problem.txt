@@ -1,0 +1,47 @@
+import java.util.*;
+public class Main {
+    static int findCelebrity(int N, int[][] matrix) {
+        int candidate = 0;
+
+        // Step 1: Find a potential candidate
+        for (int i = 1; i < N; i++) {
+            if (matrix[candidate][i] == 1) {
+                candidate = i;
+            }
+        }
+
+        // Step 2: Verify if the candidate is a celebrity
+        for (int i = 0; i < N; i++) {
+            if (i != candidate && (matrix[candidate][i] == 1 || matrix[i][candidate] == 0)) {
+                return -1; // The candidate is not a celebrity
+            }
+        }
+
+        return candidate;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Input: Number of persons in the party
+        int N = scanner.nextInt();
+
+        // Input: Matrix representing "A knows B" relationship
+        int[][] matrix = new int[N][N];
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                matrix[i][j] = scanner.nextInt();
+            }
+        }
+
+        // Find and print the celebrity
+        int celebrity = findCelebrity(N, matrix);
+        if (celebrity != -1) {
+            System.out.println(celebrity);
+        } else {
+            System.out.println("No Celebrity");
+        }
+
+        scanner.close();
+    }
+}

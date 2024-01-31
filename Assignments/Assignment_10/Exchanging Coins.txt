@@ -1,0 +1,28 @@
+import java.util.*;
+
+public class Main {
+    static Map<Integer, Long> memo = new HashMap<>();
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+
+        long maxGoldWeight = getMaxGoldWeight(n);
+        System.out.println(maxGoldWeight);
+    }
+
+    public static long getMaxGoldWeight(int n) {
+        if (n <= 2) {
+            return n;
+        }
+
+        if (memo.containsKey(n)) {
+            return memo.get(n);
+        }
+
+        long maxWeight = Math.max(n, getMaxGoldWeight(n / 2) + getMaxGoldWeight(n / 3) + getMaxGoldWeight(n / 4));
+        memo.put(n, maxWeight);
+
+        return maxWeight;
+    }
+}

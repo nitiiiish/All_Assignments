@@ -1,0 +1,36 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int N = scanner.nextInt(); // Size of the array
+        int[] array = new int[N];
+
+        // Read the array elements
+        for (int i = 0; i < N; i++) {
+            array[i] = scanner.nextInt();
+        }
+
+        // Create a HashMap to store the frequency of each number
+        HashMap<Integer, Integer> frequencyMap = new HashMap<>();
+
+        // Iterate through the array and update the frequency map
+        for (int num : array) {
+            frequencyMap.put(num, frequencyMap.getOrDefault(num, 0) + 1);
+        }
+
+        // Find the number with maximum frequency
+        int maxFrequency = Integer.MIN_VALUE;
+        int numberWithMaxFrequency = 0;
+        for (Map.Entry<Integer, Integer> entry : frequencyMap.entrySet()) {
+            int frequency = entry.getValue();
+            if (frequency > maxFrequency) {
+                maxFrequency = frequency;
+                numberWithMaxFrequency = entry.getKey();
+            }
+        }
+
+        // Print the number with maximum frequency
+        System.out.println(numberWithMaxFrequency);
+    }
+}

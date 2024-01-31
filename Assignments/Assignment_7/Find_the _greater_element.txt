@@ -1,0 +1,35 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        int[] nums = new int[n];
+        for (int i = 0; i < n; i++) {
+            nums[i] = scanner.nextInt();
+        }
+        int[] result = nextGreaterElement(nums);
+        for (int num : result) {
+            System.out.print(num + " ");
+        }
+    }
+
+    public static int[] nextGreaterElement(int[] nums) {
+        int n = nums.length;
+        int[] result = new int[n];
+        Arrays.fill(result, -1); // Initialize the result array with -1
+        Stack<Integer> stack = new Stack<>();
+
+        // First traversal: find next greater element
+        for (int i = 0; i < 2 * n; i++) {
+            int index = i % n;
+            while (!stack.isEmpty() && nums[stack.peek()] < nums[index]) {
+                result[stack.pop()] = nums[index];
+            }
+            if (i < n) {
+                stack.push(i); // Push the index onto the stack for the first n elements
+            }
+        }
+        return result;
+    }
+}

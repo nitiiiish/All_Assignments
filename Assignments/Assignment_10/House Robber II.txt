@@ -1,0 +1,49 @@
+import java.util.Scanner;
+
+public class Main {
+
+    public static int rob(int[] nums) {
+        int n = nums.length;
+        if (n == 1) {
+            return nums[0];
+        } else if (n == 2) {
+            return Math.max(nums[0], nums[1]);
+        }
+        
+        // Rob houses from the first to the second-to-last house
+        int max1 = robHelper(nums, 0, n - 2);
+        // Rob houses from the second to the last house
+        int max2 = robHelper(nums, 1, n - 1);
+        
+        // Return the maximum amount between the two cases
+        return Math.max(max1, max2);
+    }
+
+    // Helper function for House Robber problem
+    public static int robHelper(int[] nums, int start, int end) {
+        int prevMax = 0;
+        int currMax = 0;
+        
+        for (int i = start; i <= end; i++) {
+            int temp = currMax;
+            currMax = Math.max(prevMax + nums[i], currMax);
+            prevMax = temp;
+        }
+        
+        return currMax;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int N = scanner.nextInt(); // Size of array
+        int[] nums = new int[N];
+        for (int i = 0; i < N; i++) {
+            nums[i] = scanner.nextInt();
+        }
+
+        System.out.println(rob(nums));
+
+        scanner.close();
+    }
+}

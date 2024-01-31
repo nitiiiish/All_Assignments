@@ -1,0 +1,64 @@
+import java.util.*;
+
+class ListNode {
+    int val;
+    ListNode next;
+    ListNode(int val) {
+        this.val = val;
+        this.next = null;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        ListNode head = null;
+        ListNode tail = null;
+
+        // Construct the linked list
+        int val;
+        while ((val = scanner.nextInt()) != -1) {
+            ListNode newNode = new ListNode(val);
+            if (head == null) {
+                head = newNode;
+                tail = newNode;
+            } else {
+                tail.next = newNode;
+                tail = newNode;
+            }
+        }
+
+        // Read the value of k
+        int k = scanner.nextInt();
+
+        // Find the kth element from the end
+        int result = findKthFromEnd(head, k);
+        System.out.println(result);
+    }
+
+    public static int findKthFromEnd(ListNode head, int k) {
+        if (head == null) {
+            return -1; // Invalid input
+        }
+
+        ListNode fast = head;
+        ListNode slow = head;
+
+        // Move the fast pointer k steps ahead
+        for (int i = 0; i < k; i++) {
+            if (fast == null) {
+                return -1; // Invalid input
+            }
+            fast = fast.next;
+        }
+
+        // Move both pointers until fast pointer reaches the end
+        while (fast != null) {
+            fast = fast.next;
+            slow = slow.next;
+        }
+
+        // Now, slow pointer is at the kth element from the end
+        return slow.val;
+    }
+}

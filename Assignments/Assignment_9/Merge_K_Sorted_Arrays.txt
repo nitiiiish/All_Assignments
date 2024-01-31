@@ -1,0 +1,62 @@
+import java.util.*;
+
+class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int K = scanner.nextInt();
+        int N = scanner.nextInt();
+        
+        int[][] arrays = new int[K][N];
+        for (int i = 0; i < K; i++) {
+            for (int j = 0; j < N; j++) {
+                arrays[i][j] = scanner.nextInt();
+            }
+        }
+        
+        int[] result = mergeArrays(arrays);
+        
+        for (int num : result) {
+            System.out.print(num + " ");
+        }
+    }
+
+    public static int[] mergeArrays(int[][] arrays) {
+        PriorityQueue<ArrayContainer> pq = new PriorityQueue<>(new Comparator<ArrayContainer>() {
+            public int compare(ArrayContainer a1, ArrayContainer a2) {
+                return a1.val - a2.val;
+            }
+        });
+
+        int totalLength = 0;
+        for (int i = 0; i < arrays.length; i++) {
+            pq.offer(new ArrayContainer(arrays[i][0], i, 0));
+            totalLength += arrays[i].length;
+        }
+
+        int[] result = new int[totalLength];
+        int index = 0;
+
+        while (!pq.isEmpty()) {
+            ArrayContainer ac = pq.poll();
+            result[index++] = ac.val;
+
+            if (ac.index < arrays[ac.arrayIndex].length - 1) {
+                pq.offer(new ArrayContainer(arrays[ac.arrayIndex][ac.index + 1], ac.arrayIndex, ac.index + 1));
+            }
+        }
+
+        return result;
+    }
+
+    static class ArrayContainer {
+        int val;
+        int arrayIndex;
+        int index;
+
+        public ArrayContainer(int val, int arrayIndex, int index) {
+            this.val = val;
+            this.arrayIndex = arrayIndex;
+            this.index = index;
+        }
+    }
+}
